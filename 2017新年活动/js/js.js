@@ -139,11 +139,8 @@ var newYearAct = {
 			var li = document.createElement("li");
 			li.innerHTML = json[i].word;
 			li.style.color = json[i].color;
-			li.style.lineHeight = (this.getClient().height * 0.8)/3 +"px";
 			ul.appendChild(li);
 		}
-		ul.style.marginLeft = (-this.getClient().width*0.8/2) + "px";
-		ul.style.marginTop = (-this.getClient().height*0.8/2) + "px";
 		gameBox.appendChild(ul);
 		document.body.appendChild(gameBox);
 		this.createTime(gameBox);
@@ -152,12 +149,11 @@ var newYearAct = {
 	createTime : function (gameBox){
 		this.oldTime = this.time;
 		var time = document.createElement('div');
-		time.style.width = this.getClient().width*0.8/4 + "px";
-		time.style.height = this.getClient().height*0.8/4 + "px";
-		time.style.lineHeight = this.getClient().height*0.8/4 + "px";
 		time.id = "time";
 		time.innerHTML = this.time;
 		gameBox.appendChild(time);
+		// this.response();
+		// return;
 		var that = this;
 		this.timer = setInterval(function (){
 			that.time -= 1 ;

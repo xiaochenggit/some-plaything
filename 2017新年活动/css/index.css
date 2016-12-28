@@ -2,6 +2,16 @@ body,html{
 	font-family: '微软雅黑';
 	font-size: 16px;
 	overflow: hidden;	
+	height: 100%;
+}
+body{
+	background: url('../images/1.jpg') no-repeat top center;
+}
+#public{
+	width: 960px;
+	margin: 0 auto;
+	background: url('../images/bg4.jpg') no-repeat;
+	height: 100%;
 }
 #btns{
 	width: 400px;
@@ -52,7 +62,7 @@ body,html{
     position: absolute;
     left: 0px;
     top: 0px;
-    z-index: 1;
+    z-index: 56;
 }
 #modelCont{
     padding: 5px 2px;
@@ -65,7 +75,7 @@ body,html{
     top: 100px;
     left:50%;
     margin-left: -300px;
-    z-index: 2;
+    z-index: 57;
 }
 #modelCont h2{
     font: 18px/30px "微软雅黑";
@@ -93,48 +103,77 @@ body,html{
     line-height: 24px;
     color: #f60;
 }
+#left,#right{
+	position: absolute;
+}
+#left{
+	left: 0px;
+}
+#right{
+	right: 0px;
+}
+#left img,
+#right img{
+	width: 100%;
+	height: auto;
+}
 /* 游戏的主体 */
 #gameBox {
+	position: absolute;
+	left: 0px;
+	top: 0px;
 	z-index: 10;
-	background-color: #ccc;
 	/* opacity: 0.3;
 	filter: alpha(opacity=30); */
 }
 #gameBox ul#game {
 	position: absolute;
-	width: 80%;
-	height: 80%;
+	width: 480px;
+	height: 480px;
 	left: 50%;
-	top: 50%;
+	bottom:50px;
+	margin-left: -240px;
 }
 #gameBox ul#game li {
-	width: 33%;
+	width: 110px;
+	height: 110px;
+	background-color: #ccc;
 	float: left;
 	font-size: 60px;
 	text-align: center;
+	line-height: 100px;
+	border-radius: 110px;
+	margin: 25px;
 }
 #time{
-	font-size: 60px;
+	font-size: 80px;
 	text-align: center;
 	position: absolute;
-	right: 0px;
-	top: 0px;
+	right: 50px;
+	top: 50px;
 	color: #f60;
+	width: 110px;
+	height: 110px;
+	line-height: 110px;
+	border-radius: 110px;
+	background-color: #ccc;
 }
 #response{
-	width: 470px;
+	width: 480px;
 	margin: 0 auto;
 	text-align: center;
+	margin-top: 294px;
 }
 #gameBox #answer,
 #gameBox #choice{
 	overflow: hidden;
-	padding: 10px;
+	margin: 10px;
 	height: 50px;
 	line-height: 50px;
 	text-align: center;
 	font-size: 40px;
 	color: #f60;
+	border: 5px solid #ccc;
 }
 #gameBox #answer li,
 #gameBox #choice li{
