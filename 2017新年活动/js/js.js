@@ -98,7 +98,7 @@ var newYearAct = {
 			inputbtn.type = "button"; 
 			inputbtn.value = "查看答案";
 			inputbtn.id = "look";
-			inputbtn.setAttribute("onclick","newYearAct.getAnswer()")
+			inputbtn.setAttribute("onclick","newYearAct.getAnswer(this)")
 			// 创建重新开始游戏
 			var inputbtn1 = document.createElement("input");
 			inputbtn1.type = "button"; 
@@ -133,7 +133,8 @@ var newYearAct = {
 		}
 	},
 	// 正确答案
-	getAnswer : function (){
+	getAnswer : function (a){
+		a.disabled = true;
 		var response = document.getElementById("response")
 		var answer = document.createElement("ul");
 		answer.id = "answer";
