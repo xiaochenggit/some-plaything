@@ -23,6 +23,7 @@ body{
 	z-index: 1;
 }
 /* 开始游戏和游戏说明按钮 */
+#onlyStar,
 #star,
 #explain,
 #look,
@@ -39,6 +40,7 @@ body{
 	outline: none;
 	margin: 0px 10px;
 }
+#onlyStar:hover,
 #star:hover,
 #explain:hover,
 #look:hover,
@@ -126,7 +128,8 @@ body{
 	/* opacity: 0.3;
 	filter: alpha(opacity=30); */
 }
-#gameBox ul#game {
+#gameBox ul#game,
+#someul{
 	position: absolute;
 	width: 480px;
 	height: 480px;
@@ -134,7 +137,8 @@ body{
 	bottom:50px;
 	margin-left: -240px;
 }
-#gameBox ul#game li {
+#gameBox ul#game li,
+#someul li{
 	width: 110px;
 	height: 110px;
 	background-color: #ccc;
@@ -144,6 +148,40 @@ body{
 	line-height: 100px;
 	border-radius: 110px;
 	margin: 25px;
+	position: relative;
+	cursor: pointer;
+}
+#gameBox ul#game li p{
+	position: absolute;
+	background-color: #ccc;
+	width: 20px;
+	height: 20px;
+	bottom: 0px;
+	left: 50%;
+	margin-left: -10px;
+	line-height: 20px;
+	font-size: 20px;
+	border-radius: 20px;
+}
+#someul li{
+	width: 100px;
+	height: 100px;
+	border: 5px solid #ccc;
+	border-radius: 105px;
+	position: relative;
+}
+#someul li p{
+	position: relative;
+	z-index: 1000;
+}
+#someul li span{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	background-color: #f60;
+	border-radius: 100%;
 }
 #time{
 	font-size: 80px;
@@ -185,7 +223,7 @@ body{
 }
 #gameBox #validate{
 	overflow: hidden;
-	padding: 10px;
+	padding: 10px 15px;
 	height: 50px;
 }
 #gameBox #validate li{

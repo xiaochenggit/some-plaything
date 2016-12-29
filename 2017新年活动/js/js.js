@@ -4,12 +4,13 @@ var newYearAct = {
 	words : ["红","黄","黑","蓝","白","绿","综","紫","橙"], // 字数组
 	gameEx : "游戏产生随机的字和颜色,玩家只需要在一定时间之内记住颜色的顺序,然后再颜色版中按照顺序点出,然后就可知晓分数,最高分数为9分",
 	json : "",
-	time : 20,
+	time : 1,
 	oldTime :'',
 	timer : "", // 定时器 
 	index : 0, //验证正确性问题
 	score : 0, // 分数
 	isPrize : true,// 是否可以领取奖励
+	isOnly : false,//游戏是否是单人,默认是多人
 	// 回答问题
 	response : function (){
 		// 把游戏主体隐藏
@@ -20,27 +21,48 @@ var newYearAct = {
 			gameBox.removeChild(ul);
 			gameBox.removeChild(time);
 		}
-		// 创建供玩家选择的 ul
-		var choicediv = document.createElement("div");
-		choicediv.id = 'response';
-		var choice = document.createElement("ul");
-		choice.id = "choice";
-		var that = this;
-		for (var i = 0 , len = this.colorarr.length ; i < len ; i ++){
-			var li = document.createElement("li");
-			li.style.backgroundColor = this.colorarr[i];
-			li.index = i;
-			li.onclick = function (){
-				that.validate(that.colorarr[this.index]);
+		if (this.isOnly) {
+			// 创建供玩家选择的 ul
+			var choicediv = document.createElement("div");
+			choicediv.id = 'response';
+			var choice = document.createElement("ul");
+			choice.id = "choice";
+			var that = this;
+			for (var i = 0 , len = this.colorarr.length ; i < len ; i ++){
+				var li = document.createElement("li");
+				li.style.backgroundColor = this.colorarr[i];
+				li.index = i;
+				li.onclick = function (){
+					that.validate(that.colorarr[this.index]);
+				}
+				choice.appendChild(li);
 			}
-			choice.appendChild(li);
+			// 创建验证答案
+			var validate = document.createElement("ul");
+			validate.id = "validate";
+			choicediv.appendChild(choice);
+			choicediv.appendChild(validate);
+			gameBox.appendChild(choicediv);
+		}else {
+			var someUl = document.createElement("ul");
+			someUl.id = "someul";
+			for (var i = 0 , len = this.colors.length ; i < len ; i ++){
+				var li = document.createElement("li");
+				var p = document.createElement("p");
+				p.style.color = "#ccc";
+				p.innerHTML = i+1;
+				var span = document.createElement("span");
+				p.onclick = function (){
+					var spanP = this.nextSibling;
+					spanP.style.opacity = 0;
+				}
+				li.appendChild(p);
+				li.appendChild(span);
+				li.style.backgroundColor = this.colors[i];
+				someUl.appendChild(li);
+			}
+			gameBox.appendChild(someUl);
 		}
-		// 创建验证答案
-		var validate = document.createElement("ul");
-		validate.id = "validate";
-		choicediv.appendChild(choice);
-		choicediv.appendChild(validate);
-		gameBox.appendChild(choicediv);
 	},
 	// 重新开始游戏
 	reGame : function (){
@@ -137,13 +159,24 @@ var newYearAct = {
 		var json = this.json;
 		for(var i = 0 ,len = json.length ; i < len ; i ++){
 			var li = document.createElement("li");
-			li.innerHTML = json[i].word;
+			li.innerHTML += json[i].word;
+			li.innerHTML += "<p>"+(i+1)+"</p>";
 			li.style.color = json[i].color;
 			ul.appendChild(li);
 		}
 		gameBox.appendChild(ul);
 		document.body.appendChild(gameBox);
 		this.createTime(gameBox);
+	},
+	// 单人游戏
+	onlyStar : function (){
+		this.isOnly = true;
+		this.createBody();
+	},
+	// 多人游戏
+	star : function (){
+		this.isOnly = false;
+		this.createBody();
 	},
 	// 倒计时
 	createTime : function (gameBox){
@@ -158,7 +191,7 @@ var newYearAct = {
 		this.timer = setInterval(function (){
 			that.time -= 1 ;
 			time.innerHTML = that.time;
-			if (that.time < 0) {
+			if (that.time <= 0) {
 				clearInterval(that.timer);
 				that.response();	
 			}
