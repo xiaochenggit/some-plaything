@@ -13,14 +13,18 @@ body{
 	background: url('../images/bg4.jpg') no-repeat;
 	height: 100%;
 }
-#btns{
+#btns,
+#divM{
 	width: 400px;
 	position: absolute;
 	left: 50%;
 	margin-left: -200px;
-	top: 50%;
-	margin-top: -15px;
+	top: 300px;
 	z-index: 1;
+}
+#btns input,
+#divM input{
+	margin-top: 20px;
 }
 /* 开始游戏和游戏说明按钮 */
 #onlyStar,
@@ -28,10 +32,13 @@ body{
 #explain,
 #look,
 #re,
-#reward{
-	width: 100px;
+#reward,
+#moreRe,
+#inputRe,
+#divMore input{
+	width: 398px;
 	text-align: center;
-	line-height: 30px;
+	line-height: 80px;
 	border-radius: 8px;
 	background-color:#5cb85c;
 	border:1px #4cae4c solid;
@@ -39,21 +46,45 @@ body{
 	cursor: pointer;
 	outline: none;
 	margin: 0px 10px;
+	font-size: 60px;
+}
+#divMore{
+	width: 200px;
+	position: absolute;
+	right: 20px;
+	top: 20px;
+}
+#divMore input{
+	width: 200px;
+	line-height: 60px;
+	font-size: 30px;
+	margin-top: 20px;
+}
+#look,
+#re,
+#reward{
+	width: 120px;
+	line-height: 30px;
+	font-size: 16px;
 }
 #onlyStar:hover,
 #star:hover,
 #explain:hover,
 #look:hover,
 #re:hover,
-#reward:hover{
+#reward:hover,
+#moreRe:hover,
+#inputRe:hover,
+#divMore input:hover{
 	background-color: #6aa86a;
+	color: #f60;
 }
 #star{
 	float: left;
 }
-#explain {
+/* #explain {
 	float: right;
-}
+} */
 /*模拟alert弹窗*/
 #model {
     width: 100%;
@@ -131,23 +162,23 @@ body{
 #gameBox ul#game,
 #someul{
 	position: absolute;
-	width: 480px;
-	height: 480px;
+	width: 360px;
+	height: 360px;
 	left: 50%;
-	bottom:50px;
-	margin-left: -240px;
+	top:300px;
+	margin-left: -180px;
 }
 #gameBox ul#game li,
 #someul li{
-	width: 110px;
-	height: 110px;
+	width: 90px;
+	height: 90px;
 	background-color: #ccc;
 	float: left;
-	font-size: 60px;
+	font-size: 50px;
 	text-align: center;
-	line-height: 100px;
-	border-radius: 110px;
-	margin: 25px;
+	line-height: 90px;
+	border-radius: 90px;
+	margin: 15px;
 	position: relative;
 	cursor: pointer;
 }
@@ -164,10 +195,10 @@ body{
 	border-radius: 20px;
 }
 #someul li{
-	width: 100px;
-	height: 100px;
-	border: 5px solid #ccc;
-	border-radius: 105px;
+	width: 84px;
+	height: 84px;
+	border: 3px solid #ccc;
+	border-radius: 84px;
 	position: relative;
 }
 #someul li p{
@@ -181,6 +212,7 @@ body{
 	top: 0px;
 	left: 0px;
 	background-color: #f60;
+	opacity: 0;
 	border-radius: 100%;
 }
 #time{

@@ -2,9 +2,10 @@ var newYearAct = {
 	colorarr:["red","yellow","black","blue","white","green","brown","purple","orange"],//盛放随机之后的数组
 	colors : ["white","purple","yellow","green","black","orange","blue","red","brown"], // color 数组
 	words : ["红","黄","黑","蓝","白","绿","综","紫","橙"], // 字数组
-	gameEx : "游戏产生随机的字和颜色,玩家只需要在一定时间之内记住颜色的顺序,然后再颜色版中按照顺序点出,然后就可知晓分数,最高分数为9分",
+	gameEx : "<h3>多人游戏玩法</h3>玩家在30秒内根据顺序记住字的颜色,30秒之后根据玩家自己抽到的题板进行战队,站错、或者位置找的慢,都将被淘汰!"+
+			 "<h3>单人游戏玩法</h3>玩家在一定时间内记住颜色的顺序(最长为30s),然后进入答题阶段,玩家根据自己记住的颜色顺序点击颜色版,点完之后会显示出玩家记忆消耗的时间与所得的分数,分数高者获胜,相同分数时间少者获胜",
 	json : "",
-	time : 1,
+	time : 30,
 	oldTime :'',
 	timer : "", // 定时器 
 	index : 0, //验证正确性问题
@@ -44,35 +45,73 @@ var newYearAct = {
 			choicediv.appendChild(validate);
 			gameBox.appendChild(choicediv);
 		}else {
-			var someUl = document.createElement("ul");
-			someUl.id = "someul";
-			for (var i = 0 , len = this.colors.length ; i < len ; i ++){
-				var li = document.createElement("li");
-				var p = document.createElement("p");
-				p.style.color = "#ccc";
-				p.innerHTML = i+1;
-				var span = document.createElement("span");
-				p.onclick = function (){
-					var spanP = this.nextSibling;
-					spanP.style.opacity = 0;
-				}
-				li.appendChild(p);
-				li.appendChild(span);
-				li.style.backgroundColor = this.colors[i];
-				someUl.appendChild(li);
-			}
-			gameBox.appendChild(someUl);
+			var divM = document.createElement("div");
+			divM.id = "divM";
+			var inputM = document.createElement("input");
+			inputM.type = "button";
+			inputM.id = "moreRe";
+			inputM.value = "查看答案";
+			// var inputRe = document.createElement("input");
+			// inputRe.type = "button";
+			// inputRe.id = "inputRe";
+			// inputRe.value = "回到菜单";
+			// var inputNew = document.createElement("input");
+			// inputNew.type = "button";
+			// inputNew.id = "inputRe";
+			// inputNew.value = "重新开始";
+			divM.appendChild(inputM);
+			// divM.appendChild(inputNew);
+			// divM.appendChild(inputRe);
+			gameBox.appendChild(divM);
+			inputM.setAttribute("onclick","newYearAct.moreRe()")
 		}
+	},
+	// 多人游戏查看答案
+	moreRe : function(){
+		var gameBox = document.getElementById("gameBox");
+		var divM = document.getElementById("divM");
+		gameBox.removeChild(divM);
+		var someUl = document.createElement("ul");
+		someUl.id = "someul";
+		for (var i = 0 , len = this.colors.length ; i < len ; i ++){
+			var li = document.createElement("li");
+			var p = document.createElement("p");
+			p.style.color = "#ccc";
+			p.innerHTML = i+1;
+			var span = document.createElement("span");
+			p.onclick = function (){
+				var spanP = this.nextSibling;
+				spanP.style.opacity = 0;
+			}
+			li.appendChild(p);
+			li.appendChild(span);
+			li.style.backgroundColor = this.colors[i];
+			someUl.appendChild(li);
+		}
+		var divMore = document.createElement("div");
+		divMore.id = "divMore";
+		var inputRe = document.createElement("input");
+		inputRe.type = "button";
+		inputRe.value = "重新开始游戏";
+		inputRe.setAttribute("onclick","newYearAct.reGame()")
+		var inputMenu = document.createElement("input");
+		inputMenu.type = "button";
+		inputMenu.value = "回主菜单";
+		inputMenu.setAttribute("onclick","newYearAct.goMenu()")
+		divMore.appendChild(inputRe);
+		divMore.appendChild(inputMenu);
+		gameBox.appendChild(divMore);
+		gameBox.appendChild(someUl);
 	},
 	// 重新开始游戏
 	reGame : function (){
 		var gameBox = document.getElementById("gameBox");
-		console.log(gameBox);
 		if (gameBox && gameBox.parentNode) {
-			document.body.removeChild(gameBox);
+			gameBox.parentNode.removeChild(gameBox);
 		}
 		this.index = 0 ;
 		this.score = 0 ;
+		this.onlyTime = 0;
 		this.time = this.oldTime;
 		this.isPrize = true;
 		this.createBody();
@@ -91,7 +130,11 @@ var newYearAct = {
 		this.index ++;
 		if (this.index == this.colorarr.length) {
 			var choice = document.getElementById("choice");
-			choice.innerHTML = "恭喜你获得" + this.score + "分";
+			if (this.score >=6) {
+				choice.innerHTML = "恭喜你在"+this.onlyTime+"秒内获得 : " + this.score + "分";
+			}else{
+				choice.innerHTML = "你在"+this.onlyTime+"秒内获得 : " + this.score + "分";
+			}
 			// 创建查看答案 
 			var divgroup = document.createElement("div");
 			var inputbtn = document.createElement("input");
@@ -109,8 +152,10 @@ var newYearAct = {
 			var inputReward = document.createElement("input");
 			inputReward.id = "reward";
 			inputReward.type = "button"; 
-			inputReward.value = "查看奖励";
-			inputReward.setAttribute("onclick","newYearAct.whatPrize()");
+			// inputReward.value = "查看奖励";
+			inputReward.value = "回到主菜单";
+			// inputReward.setAttribute("onclick","newYearAct.whatPrize()");
+			inputReward.setAttribute("onclick","newYearAct.goMenu()");
 			var response = document.getElementById("response");
 			divgroup.appendChild(inputbtn);
 			divgroup.appendChild(inputbtn1);
@@ -118,6 +163,19 @@ var newYearAct = {
 			response.appendChild(divgroup);
 		}
 		validate.appendChild(li);
+	},
+	//回到主菜单
+	goMenu : function (){
+		// this.reGame();
+		this.index = 0 ;
+		this.score = 0 ;
+		this.time = this.oldTime;
+		this.onlyTime = 0;
+		this.isPrize = true;
+		var gameBox = document.getElementById("gameBox");
+		var btns = document.getElementById("btns");
+		gameBox.parentNode.removeChild(gameBox);
+		btns.style.display = "block";
 	},
 	// 查看奖励
 	whatPrize : function (){
@@ -189,8 +247,10 @@ var newYearAct = {
 		// this.response();
 		// return;
 		var that = this;
+		that.onlyTime = 0;
 		this.timer = setInterval(function (){
 			that.time -= 1 ;
+			that.onlyTime += 1;
 			time.innerHTML = that.time;
 			if (that.time <= 0) {
 				clearInterval(that.timer);
