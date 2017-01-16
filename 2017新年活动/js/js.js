@@ -15,12 +15,17 @@ var newYearAct = {
 	// 回答问题
 	response : function (){
 		// 把游戏主体隐藏
+		clearInterval(this.timer);
 		var gameBox = document.getElementById("gameBox");
 		var ul = gameBox.getElementsByTagName("ul")[0];
 		var time = document.getElementById("time");
+		var onediv = document.getElementById("onediv")
 		if (gameBox&&ul&&time) {
 			gameBox.removeChild(ul);
 			gameBox.removeChild(time);
+		}
+		if (onediv) {
+			gameBox.removeChild(onediv);
 		}
 		if (this.isOnly) {
 			// 创建供玩家选择的 ul
@@ -211,6 +216,16 @@ var newYearAct = {
 		btns.style.display = "none";
 		var gameBox = document.createElement("div");
 		gameBox.id = "gameBox";
+		var that = this;
+		if (this.isOnly) {
+			var onediv = document.createElement("div");
+			onediv.id = "onediv";
+			onediv.innerHTML = "我记住了";
+			onediv.onclick = function(){
+				that.response();
+			}
+			gameBox.appendChild(onediv);
+		}
 		gameBox.style.width = this.getClient().width + "px";
 		gameBox.style.height = this.getClient().height + "px";
 		var ul = document.createElement("ul");

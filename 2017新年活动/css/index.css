@@ -35,7 +35,8 @@ body{
 #reward,
 #moreRe,
 #inputRe,
-#divMore input{
+#divMore input,
+#onediv{
 	width: 398px;
 	text-align: center;
 	line-height: 80px;
@@ -47,6 +48,17 @@ body{
 	outline: none;
 	margin: 0px 10px;
 	font-size: 60px;
+}
+#onediv{
+	width: 100px;
+	position: absolute;
+	line-height: 30px;
+	text-align: center;
+	font-size: 18px;
+	height: 30px;
+	left: 50%;
+	margin-left: -50px;
+	top: 270px;
 }
 #divMore{
 	width: 200px;
@@ -75,7 +87,8 @@ body{
 #reward:hover,
 #moreRe:hover,
 #inputRe:hover,
-#divMore input:hover{
+#divMore input:hover,
+#onediv:hover{
 	background-color: #6aa86a;
 	color: #f60;
 }
