@@ -9,11 +9,30 @@
 	</style>
 </head>
 <body>
+	<div id="audiodiv" style="display:none">
+        <div>正在播放mp3文件：黑白.mp3</div>
+        <div><input id="audioAction" type="button" value="播放"/></div>
+        <div>进度：<input id="process" value="0"></div>
+        <div>
+            修改进度：
+            <input id="setProcess" type="text" value="0">
+            <input id="setProcessOK" type="button" value="确定">
+        </div>
+        <div>
+            <input type="button" id="volup" value="音量+">
+            <input type="button" id="voldown" value="音量-">
+            <input type="button" id="muted" value="静音">
+        </div>
+    </div>
+    <audio id="audio" src="1.mp3" controls="controls" style="display:none">
+    </audio>
 	<div id="left">
-		<img src="images/2.png">
+		<p id="leftp"></p>
+		<img src="images/4.gif">
 	</div>
 	<div id="right">
-		<img src="images/1.png">
+		<p id="rightp"></p>
+		<img src="images/2.gif">
 	</div>
 	<div id="public">
 		

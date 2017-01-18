@@ -1,9 +1,9 @@
 var newYearAct = {
-	colorarr:["red","yellow","black","blue","white","green","brown","purple","orange"],//盛放随机之后的数组
-	colors : ["white","purple","yellow","green","black","orange","blue","red","brown"], // color 数组
-	words : ["红","黄","黑","蓝","白","绿","综","紫","橙"], // 字数组
-	gameEx : "<h3>多人游戏玩法</h3>玩家在30秒内根据顺序记住字的颜色,30秒之后根据玩家自己抽到的题板进行战队,站错、或者位置找的慢,都将被淘汰!"+
-			 "<h3>单人游戏玩法</h3>玩家在一定时间内记住颜色的顺序(最长为30s),然后进入答题阶段,玩家根据自己记住的颜色顺序点击颜色版,点完之后会显示出玩家记忆消耗的时间与所得的分数,分数高者获胜,相同分数时间少者获胜",
+	colorarr:["#FC8F00","#FFFFFF","#FCFF00","#17A500","#000000","#002AEA","#7019E7","#FF00F6","#FF0700"],//盛放随机之后的数组
+	colors : ["#FFFFFF","#FC8F00","#FCFF00","#17A500","#000000","#7019E7","#002AEA","#FF0700","#FF00F6"], // color 数组
+	words : ["红","黄","黑","蓝","白","绿","粉","紫","橙"], // 字数组
+	gameEx : "<h3>多人游戏玩法</h3>玩家在30秒内根据顺序记住字的颜色,30秒之后根据玩家自己抽到的题板进行站队,站错、或者位置找的慢,都将被淘汰!"+
+			 "<h3>单人游戏玩法</h3>玩家在一定时间内记住颜色的顺序(最长为30s),然后进入答题阶段,玩家根据自己记住的颜色顺序点击颜色版,点完之后会显示出玩家记忆消耗的时间与所得的分数,分数高者获胜,相同分数时间少者获胜。",
 	json : "",
 	time : 30,
 	oldTime :'',
@@ -15,6 +15,15 @@ var newYearAct = {
 	// 回答问题
 	response : function (){
 		// 把游戏主体隐藏
+		// 把音乐关闭 进度改为0
+		var audioAction = document.getElementById("audioAction");
+		if (audioAction) {
+			var setProcessOK = document.getElementById("setProcessOK");
+			audioAction.onclick();
+			if (setProcessOK) {
+				setProcessOK.onclick();
+			}
+		}
 		clearInterval(this.timer);
 		var gameBox = document.getElementById("gameBox");
 		var ul = gameBox.getElementsByTagName("ul")[0];
@@ -136,7 +145,7 @@ var newYearAct = {
 		if (this.index == this.colorarr.length) {
 			var choice = document.getElementById("choice");
 			if (this.score >=6) {
-				choice.innerHTML = "恭喜你在"+this.onlyTime+"秒内获得 : " + this.score + "分";
+				choice.innerHTML = "你在"+this.onlyTime+"秒内获得 : " + this.score + "分";
 			}else{
 				choice.innerHTML = "你在"+this.onlyTime+"秒内获得 : " + this.score + "分";
 			}
@@ -210,6 +219,16 @@ var newYearAct = {
 	},
 	// 创建游戏
 	createBody : function (){
+		// 播放音乐
+		var audioAction = document.getElementById("audioAction");
+		if (audioAction.value!="播放") {
+			audioAction.onclick();
+		}
+		if (audioAction) {
+			setTimeout(function(){
+				audioAction.onclick();
+			},2000)
+		}
 		// 把按钮隐藏
 		this.getJson();
 		var btns = document.getElementById("btns");
@@ -360,5 +379,118 @@ var Module = {
     } 
 };
 window.onload = function (){
-	
+	// 音乐
+	var playerMp3 = function(mp3){
+        var playerMp3 = function(option){//mp3播放器
+
+            this.audio = option.audio;
+            this.audioAction = option.audioAction;
+            this.process = option.process;
+            this.setProcessO = option.setProcess;
+            this.setProcessOK = option.setProcessOK;
+            this.volup = option.volup;
+            this.voldown = option.voldown;
+            this.muted = option.muted;
+
+            var self = this;
+
+            this.audioAction.onclick = function(){ //播放控制
+                if(this.value == "播放"){
+                    self.start();
+                    this.value = "暂停";
+                }else{
+                    self.pause();
+                    this.value = "播放";
+                }
+            }
+
+            this.volup.onclick = function(){//音量增大
+                self.setVolup();
+            }
+
+            this.voldown.onclick = function(){//音量减少
+                self.setVoldown();
+            }
+
+            this.muted.onclick = function(){//静音、发声
+                self.setMute();
+            }
+
+            setInterval(function(){//获取播放进度
+                self.getProcess();
+            },1000)
+
+            this.setProcessOK.onclick = function(){//确定修改进度
+                self.setProcess();
+            }
+
+        }
+
+        playerMp3.prototype.start = function(){//开始播放
+            this.audio.play();
+        }
+
+
+        playerMp3.prototype.pause = function(){//暂停播放
+            this.audio.pause();
+        }
+
+        playerMp3.prototype.getProcess = function(){//获取播放进度
+            this.process.value = Math.floor(this.audio.currentTime) + "秒";
+        }
+
+        playerMp3.prototype.setProcess = function(){//设置播放进度
+            this.audio.currentTime = (this.setProcessO.value || 0);
+        }
+
+        playerMp3.prototype.setVolup = function(){//音量+
+            var v = this.audio.volume + 0.1;
+
+            this.audio.volume = (v > 1 ? 1 : v);
+        }
+
+        playerMp3.prototype.setVoldown = function(){//音量-
+            var v = this.audio.volume - 0.1;
+
+            this.audio.volume = (v < 0 ? 0 : v);
+        }
+
+        playerMp3.prototype.setMute = function(){//静音/发声
+            this.audio.muted = !this.audio.muted;
+            this.audio.muted ? (this.muted.value = "发声") : (this.muted.value = "静音");
+
+        }
+
+        //实例化播放器
+        return new playerMp3(mp3);
+    }
+    /*=========HTML5版Js实现的MP3播放器==============*/
+    playerMp3({
+        "audio":document.getElementById("audio"),//音频对象
+        "audioAction":document.getElementById("audioAction"),//音频控制播放或暂停
+        "process":document.getElementById("process"),//播放进度
+        "setProcess":document.getElementById("setProcess"),//修改播放进度
+        "setProcessOK":document.getElementById("setProcessOK"),//确定修改进度
+        "volup":document.getElementById("volup"),//音量增大
+        "voldown":document.getElementById("voldown"),//音量减小
+        "muted":document.getElementById("muted")//静音
+    })
+    // 讲话切换
+    var leftp = document.getElementById("leftp");
+    var rightp = document.getElementById("rightp");
+    var speekleft = ["恕我直言：在座的各位都是辣鸡！","","嘿小鸡仔,你说今年年会有奖品吗？","","那你猜猜老大准备了啥奖品?","","我想要豪车、洋房、美女、钞票","","行政妹子跟我说,送祝福有奖品","","祝公司:新的一年,业绩更上一层楼!","","祝同事:身体健康,万事如意!","","祝福你:遂你冲天志,百尺竿头高起","","你说下边的人发现咋俩会说话了不?",""];
+    var speekRight = ["","一个能打的都没有！","","不可能只是来吃饭吧！","","重要的是咱们能中啥！","","那你还是继续想吧。","","那还不麻溜滴想!","","那同事呢?","","没新意,那我呢?","","少年,这是歌词吧!","","运气好的都发现了！"];
+    if (leftp && rightp) {
+    	var i = 0;	
+    	leftp.innerHTML = speekleft[i];		
+    	rightp.innerHTML = speekRight[i];
+    	setInterval(function(){
+    		i ++ ;
+    		if ( i > speekRight.length-1) {
+    			i = 0 ;
+    		}
+    		leftp.innerHTML = speekleft[i];
+    		rightp.innerHTML = speekRight[i];
+    	},3000);
+    }
 }
